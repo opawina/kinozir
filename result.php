@@ -1,6 +1,6 @@
 <?php
 //функция для безопасного приёма введённых данных
-	function get_post($conn, $var) {
+	function neutralize_post($conn, $var) {
 		return $conn->real_escape_string($_POST[$var]);}
 
 //подключение к БД и выдача ошибки
@@ -12,12 +12,16 @@
         
 
 //добавление в табл из того что прилетело в $_POST
-	// $namef = get_post($conn, 'namef');
-	// $query = "insert into flist (namef) values ('$namef')";
-	// $result = $conn->query($query);
-	// if (!$result) {
-	// 	echo $conn->error,'<br>';
-	// }
+	 $namef = neutralize_post($conn, 'namef');
+	 $query = "insert into flist (namef) values ('$namef')";
+	 $result = $conn->query($query);
+	 if (!$result) {
+	 	echo $conn->error,'<br>';
+	 }
+//как очистить $_POST чтоб после обновления страницы не была снова добавлена запись в БД????????         
+//         $killpost = "result.php";
+//         header("location: $killpost"); не правильно!!
+//         или  ????? unset($_POST);
 
 //тупое выведение всего что есть в таблице
 echo '
