@@ -7,7 +7,7 @@
 
  	<form method="post" action="result.php">
  		Name of film :
- 		<input type="text" name="namef"><br>
+ 		<input type="text" name="namef" required="required"><br>
  		Year :
  		<input type="text" name="yearf"><br>
  		Genre :

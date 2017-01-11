@@ -6,6 +6,20 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <div>TODO write content</div>
+       <div name="div1">
+         <div name="div_video">
+            <video controls width="400" height="300" muted autoplay>
+               <source src="video/vido.mp4" type="video/mp4"> <!--Safari Chrome? IE9 Iphone IPad Android WinPhone7-->
+               <source src="video/vido.webm" type="video/webm"> <!--Firefox4 Opera Chrome-->
+               <source src="video/vido.ogg" type="video/ogg"> <!--старые FIrefox & Opera-->
+  <!--             <object data="video/vido.swf" type="application/x-shockwave-flash"> для браузеров не понимающих HTML5
+                  <param name="movie" value="vido.swf"
+               </object>-->
+            </video>
+         </div>
+         <div name="div_txt">
+             
+         </div> 
+       </div>
     </body>
 </html>

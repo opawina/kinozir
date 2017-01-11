@@ -1,18 +1,25 @@
 <?php
-//функция для безопасного приёма введённых данных
-	function neutralize_post($conn, $var) {
-		return $conn->real_escape_string($_POST[$var]);}
+//функция для обезвреживания содержания $_POST
+    function clearance_post_in($var) {
+        $var = stripslashes($var);
+        $var = strip_tags($var);
+        return $var = htmlentities($var);}
+
+//функция для обезвреживания SQL-команды
+    function clearance_sql_in($conn, $var) {
+        $var = $conn->real_escape_string($_POST[$var]);
+        return $var = clearance_post_in($var);}
 
 //подключение к БД и выдача ошибки
-	require_once 'mysql_access.php';
-	$conn = new mysqli($hm, $un, $pw, $db);
-	if ($conn->connect_error) {
-		die($conn->connect_error);
-	}
+    require_once 'mysql_access.php';
+    $conn = new mysqli($hm, $un, $pw, $db);
+    if ($conn->connect_error) {
+            die($conn->connect_error);
+    }
         
 
 //добавление в табл из того что прилетело в $_POST
-	 $namef = neutralize_post($conn, 'namef');
+	 $namef = clearance_sql_in($conn, 'namef');
 	 $query = "insert into flist (namef) values ('$namef')";
 	 $result = $conn->query($query);
 	 if (!$result) {
