@@ -1,21 +1,11 @@
 <?php
-//функция для обезвреживания содержания $_POST
-    function clearance_post_in($var) {
-        $var = stripslashes($var);
-        $var = strip_tags($var);
-        return $var = htmlentities($var);}
-
-//функция для обезвреживания SQL-команды
-    function clearance_sql_in($conn, $var) {
-        $var = $conn->real_escape_string($_POST[$var]);
-        return $var = clearance_post_in($var);}
-
 //подключение к БД и выдача ошибки
     require_once 'mysql_access.php';
-    $conn = new mysqli($hm, $un, $pw, $db);
+    $conn = new mysqli($hn, $un, $pw, $db);
     if ($conn->connect_error) {
             die($conn->connect_error);
     }
+    
         
 
 //добавление в табл из того что прилетело в $_POST
@@ -58,4 +48,17 @@ echo	'</table>';
 //освобождаем ресурсы
 	$result->close();
 	$conn->close();
+        
+        
+        
+//              ГРУППА ЗАВИСИМЫХ ФУНКЦИЙ
+//функция для обезвреживания содержания $_POST
+    function clearance_post_in($var) {
+        $var = stripslashes($var);
+        $var = strip_tags($var);
+        return $var = htmlentities($var);}
+//функция для обезвреживания SQL-команды
+    function clearance_sql_in($conn, $var) {
+        $var = $conn->real_escape_string($_POST[$var]);
+        return $var = clearance_post_in($var);}
 ?>
