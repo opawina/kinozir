@@ -7,11 +7,25 @@
    <body>
       <?php
 //более продвинутый способ аутентификации
-
+      if (isset($_POST['exists'])) {
+        $login = 
+      }
 //      $salt1 = '.;[=';
 //      $salt2 = ',lp-';
 //      $pass = 'qwerty';
 //      echo $hashh = hash('ripemd128', "$salt1$pass$salt2");
+      
+      
+      //                  ГРУППА ЗАВИСИМЫХ ФУНКЦИЙ
+//функция для обезвреживания содержания $_POST
+        function clearance_post_in($var) {
+            $var = stripslashes($var);
+            $var = strip_tags($var);
+            return $var = htmlentities($var);}
+//функция для обезвреживания SQL-команды. включает в себя написанную выше ф для обезвреживания $_POST
+        function clearance_sql_in($conn, $var) {
+            $var = $conn->real_escape_string($_POST[$var]);
+            return $var = clearance_post_in($var);}
       ?>
       
           
@@ -21,10 +35,11 @@
       <div>
          <form action = 'auth_user.php' method = 'post'>
             Введите логин:
-            <input type='text' name='login_user'><br>
+            <input type='text' name='login_user' required="on"><br>
             Введите пароль:
-            <input type='password' name='pass_user'><br>
-            <input type='submit' value='Войти'>
+            <input type='password' name='pass_user' required="on"><br>
+            <input type="hidden" name="exists" value="1">
+            <input type='submit' value='ОК'>
          </form>
       </div>
       
@@ -48,7 +63,7 @@
 //       }
        
        
-//http-аутентификация. считается не самой надёжной!
+//http-аутентификация. считается не самой надёжной! (помоему вообще не нужна)
 //      $use='poiu';
 //      $pwd='uiop';
 //      if (isset($_SERVER['PHP_AUTH_USER']) && isset($_SERVER['PHP_AUTH_PW'])){
