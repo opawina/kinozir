@@ -6,14 +6,43 @@
    </head>
    <body>
       <?php
-//более продвинутый способ аутентификации
-      if (isset($_POST['exists'])) {
-        $login = 
-      }
-//      $salt1 = '.;[=';
-//      $salt2 = ',lp-';
-//      $pass = 'qwerty';
-//      echo $hashh = hash('ripemd128', "$salt1$pass$salt2");
+//более продвинутый способ аутентификации (остальные ниже закоментены)
+      
+        if (isset($_POST['exists'])) {
+            require_once 'mysql_access.php';
+            $conn = new mysqli($hn, $un, $pw, $db);
+            if ($conn->connect_error) {
+                die($conn->connect_error);
+            }
+            
+            $login = clearance_sql_in($conn, 'login_in');
+            $pass = clearance_sql_in($conn, 'pass_in');
+            
+            $sil1 = '/@/6';
+            $sil2 = '+*/?';
+            $pass = hash('ripemd128', "$sil1$pass$sil2");
+            
+            $query = "select * from users where login = '$login'";
+            $result = $conn->query($query);
+            if (!$result) {
+                die($conn->error);
+            }elseif ($result->num_rows) {
+                $result->data_seek();
+                $row = $result->fetch_array(MYSQLI_NUM);
+                $result->close();
+//                echo "$pass<br>";
+//                echo "$row[2]";
+                
+                if ($pass == $row[2]) {
+                    echo 'Вы авторизованны!';
+                }else{
+                    echo 'Не верно введён Логин и/или Пароль.';
+                }
+            }else{
+                echo 'Не верно введён Логин и/или Пароль.';
+            }
+            
+        }
       
       
       //                  ГРУППА ЗАВИСИМЫХ ФУНКЦИЙ
@@ -35,9 +64,9 @@
       <div>
          <form action = 'auth_user.php' method = 'post'>
             Введите логин:
-            <input type='text' name='login_user' required="on"><br>
+            <input type='text' name='login_in' required="on"><br>
             Введите пароль:
-            <input type='password' name='pass_user' required="on"><br>
+            <input type='password' name='pass_in' required="on"><br>
             <input type="hidden" name="exists" value="1">
             <input type='submit' value='ОК'>
          </form>

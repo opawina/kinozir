@@ -18,8 +18,8 @@
             $new_login = clearance_sql_in($conn, 'new_login');
             $new_pass = clearance_sql_in($conn, 'new_pass');
 //      шифрую пароль
-            $sil1 = "/@/6";
-            $sil2 = "+*/?";
+            $sil1 = '/@/6';
+            $sil2 = '+*/?';
             $new_pass = hash('ripemd128', "$sil1$new_pass$sil2");
 //      вношу в БД нового юзера
 //          подключаюсь к БД
