@@ -30,11 +30,17 @@
                 $result->data_seek();
                 $row = $result->fetch_array(MYSQLI_NUM);
                 $result->close();
-//                echo "$pass<br>";
-//                echo "$row[2]";
                 
                 if ($pass == $row[2]) {
-                    echo 'Вы авторизованны!';
+                    echo "Вы успешно авторизованны, $login!";
+                    echo "Для продолжения перейдите по <a href='list_films.php'>ссылке</a>";
+//   начало сессии
+                    session_start();
+                    $_SESSION['user_name'] = $login;
+//      создание уникальной переменной сессии
+                    $remote_addr = $_SERVER['REMOTE_ADDR'];
+                    $http_user_agent = $_SERVER['HTTP_USER_AGENT'];
+                    $_SESSION['check'] = hash('ripemd128', "$remote_addr$http_user_agent");
                 }else{
                     echo 'Не верно введён Логин и/или Пароль.';
                 }
